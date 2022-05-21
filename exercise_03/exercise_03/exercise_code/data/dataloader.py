@@ -23,6 +23,7 @@ class DataLoader:
         self.shuffle = shuffle
         self.drop_last = drop_last
 
+
     def __iter__(self):
         ########################################################################
         # TODO:                                                                #
@@ -44,18 +45,36 @@ class DataLoader:
         #     in section 1 of the notebook.                                    #
         ########################################################################
 
-        pass
+        len_dataset = len(self.dataset)
+        batch = []
 
+        if self.shuffle == True:
+            indices = np.random.permutation(len_dataset)
+        else:
+            indices = range(len_dataset)
+
+        
+        for i in indices:
+            batch.append(self.dataset[i])
+            if len(batch) == self.batch_size:
+                yield self.batch_to_numpy(self.combine_batch_dicts(batch))
+                batch = []
+
+        # if the 
+        if self.drop_last == False:
+            yield self.batch_to_numpy(self.combine_batch_dicts(batch))
         ########################################################################
         #                           END OF YOUR CODE                           #
         ########################################################################
 
     def __len__(self):
 
-        length = self.batch_size
 
-        if len(self.dataset) % self.batch_size > 0:
-            self.drop_last = True
+        length = len(self.dataset) // self.batch_size
+        if self.drop_last == False and len(self.dataset) % self.batch_size > 0:
+            length += 1
+
+
         ########################################################################
         # TODO:                                                                #
         # Return the length of the dataloader                                  #
@@ -69,3 +88,21 @@ class DataLoader:
         #                           END OF YOUR CODE                           #
         ########################################################################
         return length
+
+
+
+    def combine_batch_dicts(self,batch):
+        batch_dict = {}
+        for data_dict in batch:
+            for key, value in data_dict.items():
+                if key not in batch_dict:
+                    batch_dict[key] = []
+                batch_dict[key].append(value)
+        return batch_dict
+
+
+    def batch_to_numpy(self,batch):
+        numpy_batch = {}
+        for key, value in batch.items():
+            numpy_batch[key] = np.array(value)
+        return numpy_batch
