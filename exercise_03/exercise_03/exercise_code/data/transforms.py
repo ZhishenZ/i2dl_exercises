@@ -27,8 +27,10 @@ class RescaleTransform:
         #   - from (self._data_min, self._data_max)                            #
         #   - to (self.min, self.max)                                          #
         ########################################################################
-
-        pass
+        
+        #pass
+        for img in images:
+            img *= (self.max - self.min)/(self._data_max - self._data_min)
 
         ########################################################################
         #                           END OF YOUR CODE                           #
@@ -50,8 +52,9 @@ def compute_image_mean_and_std(images):
     # Hint: You can use numpy to calculate the mean and standard deviation #
     ########################################################################
 
-    pass
-
+    #pass
+    mean = np.mean(images)
+    std = np.std(images)
     ########################################################################
     #                           END OF YOUR CODE                           #
     ########################################################################

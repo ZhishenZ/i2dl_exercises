@@ -51,7 +51,11 @@ class DataLoader:
         ########################################################################
 
     def __len__(self):
-        length = None
+
+        length = self.batch_size
+
+        if len(self.dataset) % self.batch_size > 0:
+            self.drop_last = True
         ########################################################################
         # TODO:                                                                #
         # Return the length of the dataloader                                  #
@@ -59,7 +63,7 @@ class DataLoader:
         # Don't forget to check for drop last!                                 #
         ########################################################################
 
-        pass
+        #pass
 
         ########################################################################
         #                           END OF YOUR CODE                           #

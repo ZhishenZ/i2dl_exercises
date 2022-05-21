@@ -72,18 +72,16 @@ class ImageFolderDataset(Dataset):
         return images, labels
 
     def __len__(self):
-        length = None
+        #length = None
         ########################################################################
         # TODO:                                                                #
         # Return the length of the dataset (number of images)                  #
         ########################################################################
-
-        pass
-
         ########################################################################
         #                           END OF YOUR CODE                           #
         ########################################################################
-        return length
+        #return length
+        return len(self.images)
 
     @staticmethod
     def load_image_as_numpy(image_path):
@@ -91,7 +89,18 @@ class ImageFolderDataset(Dataset):
         return np.asarray(Image.open(image_path), dtype=float)
 
     def __getitem__(self, index):
-        data_dict = None
+
+        # data_dict["image"] = self.transform(ImageFolderDataset.load_image_as_numpy(self.images[index]))
+        # data_dict["label"] = self.labels[index]
+
+        if self.transform is None:
+            data_dict = {'image': self.load_image_as_numpy(self.images[index]),
+                         'label': self.labels[index]}
+        else:
+            data_dict = {'image': self.transform(self.load_image_as_numpy(self.images[index])),
+                         'label': self.labels[index]}
+
+
         ########################################################################
         # TODO:                                                                #
         # create a dict of the data at the given index in your dataset         #
@@ -105,7 +114,7 @@ class ImageFolderDataset(Dataset):
         #     image_transformed = self.transform(image)                        #
         ########################################################################
 
-        pass
+        #pass
 
         ########################################################################
         #                           END OF YOUR CODE                           #
