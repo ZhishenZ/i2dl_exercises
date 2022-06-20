@@ -94,7 +94,8 @@ class Relu:
         # Implement the forward pass of Relu activation function               #
         ########################################################################
 
-        pass
+        outputs = np.maximum(x,0)
+        cache = x
 
         ########################################################################
         #                           END OF YOUR CODE                           #
@@ -111,7 +112,9 @@ class Relu:
         # Implement the backward pass of Relu activation function              #
         ########################################################################
 
-        pass
+        cache[cache<0] = 0
+        cache[cache>0] = 1
+        dx = dout* cache
 
         ########################################################################
         #                           END OF YOUR CODE                           #
@@ -137,8 +140,8 @@ class LeakyRelu:
         # Implement the forward pass of LeakyRelu activation function          #
         ########################################################################
 
-        pass
-
+        outputs = np.maximum(x, self.slope*x)
+        cache = outputs
         ########################################################################
         #                           END OF YOUR CODE                           #
         ########################################################################
@@ -154,8 +157,9 @@ class LeakyRelu:
         # Implement the backward pass of LeakyRelu activation function         #
         ########################################################################
 
-        pass
-
+        dx = np.ones_like(cache)
+        dx[cache< 0] = self.slope
+        dx *= dout
         ########################################################################
         #                           END OF YOUR CODE                           #
         ########################################################################
@@ -180,7 +184,8 @@ class Tanh:
         # Implement the forward pass of Tanh activation function               #
         ########################################################################
 
-        pass
+        outputs = np.tanh(x)
+        cache = 1 / (1 + np.exp(-2 * x))
 
         ########################################################################
         #                           END OF YOUR CODE                           #
@@ -197,8 +202,7 @@ class Tanh:
         # Implement the backward pass of Tanh activation function              #
         ########################################################################
 
-        pass
-
+        dx = dout * 4 * cache * ( 1 - cache )
         ########################################################################
         #                           END OF YOUR CODE                           #
         ########################################################################
