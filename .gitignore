@@ -2,3 +2,4 @@
 *.zip
 output
 datasets
+lightning_logs/
