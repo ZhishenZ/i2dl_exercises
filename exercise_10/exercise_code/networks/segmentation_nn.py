@@ -12,7 +12,17 @@ class SegmentationNN(pl.LightningModule):
         # TODO - Train Your Model                                              #
         ########################################################################
 
-        pass
+        from torchvision import models
+        self.features = models.alexnet(pretrained=True).features
+        self.classifier = nn.Sequential(
+            
+            nn.Conv2d(256, 4096, kernel_size = 1, padding = 0),
+            nn.ReLU(),
+            nn.Conv2d(4096, num_classes, kernel_size = 1, padding = 0),
+            nn.Upsample(scale_factor = 40),
+            nn.Conv2d(num_classes, num_classes, kernel_size = 3, padding=1)
+            
+        )
 
         #######################################################################
         #                           END OF YOUR CODE                          #
@@ -30,7 +40,8 @@ class SegmentationNN(pl.LightningModule):
         #                             YOUR CODE                               #
         #######################################################################
 
-        pass
+        x = self.features(x)
+        x = self.classifier(x)
 
         #######################################################################
         #                           END OF YOUR CODE                          #
