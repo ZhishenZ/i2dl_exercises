@@ -183,7 +183,9 @@ class Embedding(nn.Module):
         ########################################################################
 
 
-        pass
+        w = torch.empty(num_embeddings, embedding_dim)
+        self.weight = torch.nn.init.normal_(w)
+
 
         ########################################################################
         #                           END OF YOUR CODE                           #
@@ -212,7 +214,8 @@ class Embedding(nn.Module):
         ########################################################################
 
 
-        pass
+        embeddings = torch.nn.Embedding(self.num_embeddings, self.embedding_dim, _weight=weight)
+        embeddings = embeddings(inputs)
 
         ########################################################################
         #                           END OF YOUR CODE                           #
